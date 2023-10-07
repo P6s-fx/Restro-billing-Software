@@ -1,6 +1,9 @@
 from tkinter import *
 import time
 from csv import *
+import os
+
+global number
 number = 1
 class appWindow:
     def __init__(self,root):
@@ -18,7 +21,7 @@ class appWindow:
 
         f2 = Frame(self.root ,width = 400,height=700,relief=SUNKEN)
         f2.pack(side=RIGHT)
-        #------------------TIME--------------
+        #------------------TIME---------------
         localtime=time.asctime(time.localtime(time.time()))
         #-----------------INFO TOP------------
         lblinfo = Label(Tops, font=( 'aria' ,30, 'bold' ),text="Restaurant Management System",fg="steel blue",bd=10,anchor='w')
@@ -49,35 +52,31 @@ class appWindow:
 
             text_Input.set(sumup)
             operator = ""
-
+            
         def Ref():
-            # x=random.randint(12980, 50876)
-            # randomRef = str(x)
-            # rand.set(randomRef)
+            contFJ =float(FJ.get())
+            contGT= float(GT.get())
+            contPT= float(PT.get())
+            contST= float(ST.get())
+            contLassi= float(Lassi.get())
+            contDrink= float(Drink.get())
 
-            cof =float(Fries.get())
-            colfries= float(Largefries.get())
-            cob= float(Burger.get())
-            cofi= float(Filet.get())
-            cochee= float(Cheese_burger.get())
-            codr= float(Drinks.get())
-
-            costoffries = cof*25
-            costoflargefries = colfries*40
-            costofburger = cob*35
-            costoffilet = cofi*50
-            costofcheeseburger = cochee*50
-            costofdrinks = codr*35
+            costofFJ = contFJ*100
+            costofGT = contGT*110
+            costofPT = contPT*130
+            costofST = contST*150
+            costofLassi = contLassi*70
+            costofdrinks = contDrink*20
 
             #********* TYPE OF COSTS ***************************************************
-            cstmeal = (costoffries +  costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks) 
+            cstmeal = (costofFJ +  costofGT + costofPT + costofST + costofLassi + costofdrinks) 
             costofmeal = "Rs.",str('%.2f'% cstmeal) 
 
-            PayTax=((costoffries +  costoflargefries + costofburger + costoffilet +  costofcheeseburger + costofdrinks)*0.33) # 33% GST
+            PayTax=((costofFJ +  costofGT + costofPT + costofST +  costofLassi + costofdrinks)*0.33) # 33% GST
             PaidTax="Rs.",str('%.2f'% PayTax)
 
-            Totalcost=(costoffries +  costoflargefries + costofburger + costoffilet  + costofcheeseburger + costofdrinks) 
-            Ser_Charge=((costoffries +  costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks)/99)
+            Totalcost=(costofFJ +  costofGT + costofPT + costofST  + costofLassi + costofdrinks) 
+            Ser_Charge=((costofFJ +  costofGT + costofPT + costofST + costofLassi + costofdrinks)/99)
             Service="Rs.",str('%.2f'% Ser_Charge)
             ovrcst = PayTax + Totalcost + Ser_Charge
             OverAllCost="Rs.",str('%.2f'% ovrcst)
@@ -90,15 +89,15 @@ class appWindow:
 
             global Header,dict
             
-            Header = [ 'Order No' , 'Fries Meal' , 'Lunch Meal' , 'Burger Meal', 'Pizza Meal' ,'Cheese Burger' , 'Drinks',
+            Header = [ 'Order No' , 'Fafda-Jalebi (500gm)' , 'Gujarati Thali' , 'Punjabi Thali', 'SouthIndian Tadka' ,'Lassi (400ml)' , 'Drink (200ml)',
                       'Cost Of Meal' , 'Tax(GST)', 'Total cost', 'Service charge' , 'Final Cost'] 
             dict = {'Order No' : number, 
-                    'Fries Meal': cof,
-                    'Lunch Meal':colfries , 
-                    'Burger Meal':cob,                    
-                    'Pizza Meal':cofi ,
-                    'Cheese Burger': cochee, 
-                    'Drinks': codr,
+                    'Fafda-Jalebi (500gm)': contFJ,
+                    'Gujarati Thali':contGT , 
+                    'Punjabi Thali':contPT,                    
+                    'SouthIndian Tadka':contST ,
+                    'Lassi (400ml)': contLassi, 
+                    'Drink (200ml)': contDrink,
                     'Cost Of Meal': cstmeal, 
                     'Tax(GST)': PayTax , 
                     'Total cost':Totalcost, 
@@ -109,55 +108,43 @@ class appWindow:
             self.root.destroy()
 
         def reset():
-            Fries.set("")
-            Largefries.set("")
-            Burger.set("")
-            Filet.set("")
+            FJ.set("")
+            GT.set("")
+            PT.set("")
+            ST.set("")
+            Lassi.set("")
+            Drink.set("")
             Subtotal.set("")
             Total.set("")
             Service_Charge.set("")
-            Drinks.set("")
             Tax.set("")
             cost.set("")
-            Cheese_burger.set("")
 
-            '''
-            costoffries
-            costoflargefries 
-            costofburger 
-            costoffilet 
-            costofcheeseburger
-            costofdrinks 
-
-            costofmeal
-            PayTax
-            Totalcost
-            Service
-            OverAllCost
-            PaidTax
-            
-            '''  
-            # filedata = [costoffries,costoflargefries,costofburger,costoffilet,costofcheeseburger,costofdrinks,
-            #             cstmeal,PayTax,Totalcost,Ser_Charge,ovrcst] 
-            # Header = [ 'Order No' , 'Fries Meal' , 'Lunch Meal' , 'Burger Meal', 'Pizza Meal' ,'Cheese Burger' , 'Drinks',
-            #           'Cost Of Meal' , 'Tax(GST)', 'Total cost', 'Service charge' , 'Final Cost']
-            
-
+        
         def csv_inc():
-            with open('Sample.csv','a',newline = '') as csvfile:
-                my_writer = DictWriter(csvfile,fieldnames=Header)
-                # # my_writer.writerow(Header)
-                my_writer.writerow(dict)
-                global number
-                number += 1
-                lblreference.config(text=number)
-                reset()
+            fname = 'Sample.csv'
+            IsExist = os.path.exists(fname)
+            print(IsExist)
 
-                
+            if IsExist:
+                with open('Sample.csv','a',newline = '') as csvfile:
+                    my_writer = DictWriter(csvfile,fieldnames=Header)
+                    my_writer.writerow(dict)
+                    global number
+                    number += 1
+                    lblreference.config(text=number)
+                    reset()
+            else:
+                with open('Sample.csv','a',newline = '') as csvfile:
+                    my_writer = writer(csvfile)
+                    my_writer.writerow(Header)
+                    writer1 = DictWriter(csvfile,fieldnames=Header)
+                    writer1.writerow(dict)
+                    number += 1
+                    lblreference.config(text=number)
+                    reset()
 
-
-              
-                
+            
 
         #***********************Buttons Of calculator*****************************************************************************************
         btn7=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="7",bg="powder blue", command=lambda: btnclick(7) )
@@ -213,17 +200,17 @@ class appWindow:
         
 
         #---------------------------------------------------------------------------------------
-        Fries = StringVar()
-        Largefries = StringVar()
-        Burger = StringVar()
-        Filet = StringVar()
+        FJ = StringVar()
+        GT = StringVar()
+        PT = StringVar()
+        ST = StringVar()
+        Lassi = StringVar()
+        Drink = StringVar()
         Subtotal = StringVar()
         Total = StringVar()
         Service_Charge = StringVar()
-        Drinks = StringVar()
         Tax = StringVar()
         cost = StringVar()
-        Cheese_burger = StringVar()
 
 
         lblreference = Label(f1, font=( 'aria' ,16, 'bold' ),text="Order No.",fg="steel blue",bd=10,anchor='w')
@@ -232,37 +219,37 @@ class appWindow:
         lblreference.grid(row=0,column=1)
 
 
-        lblfries = Label(f1, font=( 'aria' ,16, 'bold' ),text="Fries Meal",fg="steel blue",bd=10,anchor='w')
-        lblfries.grid(row=1,column=0)
-        txtfries = Entry(f1,font=('ariel' ,16,'bold'), textvariable=Fries , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
-        txtfries.grid(row=1,column=1)
+        lblFJ = Label(f1, font=( 'aria' ,16, 'bold' ),text="Fafda-Jalebi (500gm)",fg="steel blue",bd=10,anchor='w')
+        lblFJ.grid(row=1,column=0)
+        qFJ = Entry(f1,font=('ariel' ,16,'bold'), textvariable=FJ , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
+        qFJ.grid(row=1,column=1)
 
-        lblLargefries = Label(f1, font=( 'aria' ,16, 'bold' ),text="Lunch Meal",fg="steel blue",bd=10,anchor='w')
-        lblLargefries.grid(row=2,column=0)
-        txtLargefries = Entry(f1,font=('ariel' ,16,'bold'), textvariable=Largefries , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
-        txtLargefries.grid(row=2,column=1)
+        lblGT = Label(f1, font=( 'aria' ,16, 'bold' ),text="Gujarati Thali",fg="steel blue",bd=10,anchor='w')
+        lblGT.grid(row=2,column=0)
+        qGT = Entry(f1,font=('ariel' ,16,'bold'), textvariable=GT , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
+        qGT.grid(row=2,column=1)
 
 
-        lblburger = Label(f1, font=( 'aria' ,16, 'bold' ),text="Burger Meal",fg="steel blue",bd=10,anchor='w')
-        lblburger.grid(row=3,column=0)
-        txtburger = Entry(f1,font=('ariel' ,16,'bold'), textvariable=Burger , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
-        txtburger.grid(row=3,column=1)
+        lblPT = Label(f1, font=( 'aria' ,16, 'bold' ),text="Punjabi Thali",fg="steel blue",bd=10,anchor='w')
+        lblPT.grid(row=3,column=0)
+        qPT = Entry(f1,font=('ariel' ,16,'bold'), textvariable=PT , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
+        qPT.grid(row=3,column=1)
 
-        lblFilet = Label(f1, font=( 'aria' ,16, 'bold' ),text="Pizza Meal",fg="steel blue",bd=10,anchor='w')
-        lblFilet.grid(row=4,column=0)
-        txtFilet = Entry(f1,font=('ariel' ,16,'bold'), textvariable=Filet , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
-        txtFilet.grid(row=4,column=1)
+        lblST = Label(f1, font=( 'aria' ,16, 'bold' ),text="SouthIndian Tadka",fg="steel blue",bd=10,anchor='w')
+        lblST.grid(row=4,column=0)
+        qST = Entry(f1,font=('ariel' ,16,'bold'), textvariable=ST , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
+        qST.grid(row=4,column=1)
 
-        lblCheese_burger = Label(f1, font=( 'aria' ,16, 'bold' ),text="Cheese burger",fg="steel blue",bd=10,anchor='w')
-        lblCheese_burger.grid(row=5,column=0)
-        txtCheese_burger = Entry(f1,font=('ariel' ,16,'bold'), textvariable=Cheese_burger , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
-        txtCheese_burger.grid(row=5,column=1)
+        lblLassi = Label(f1, font=( 'aria' ,16, 'bold' ),text="Lassi (400ml)",fg="steel blue",bd=10,anchor='w')
+        lblLassi.grid(row=5,column=0)
+        qLassi = Entry(f1,font=('ariel' ,16,'bold'), textvariable=Lassi , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
+        qLassi.grid(row=5,column=1)
 
         #--------------------------------------------------------------------------------------
-        lblDrinks = Label(f1, font=( 'aria' ,16, 'bold' ),text="Drinks",fg="steel blue",bd=10,anchor='w')
-        lblDrinks.grid(row=0,column=2)
-        txtDrinks = Entry(f1,font=('ariel' ,16,'bold'), textvariable=Drinks , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
-        txtDrinks.grid(row=0,column=3)
+        lblDrink = Label(f1, font=( 'aria' ,16, 'bold' ),text="Drink (200ml)",fg="steel blue",bd=10,anchor='w')
+        lblDrink.grid(row=0,column=2)
+        qDrink = Entry(f1,font=('ariel' ,16,'bold'), textvariable=Drink , bd=6,insertwidth=4,bg="powder blue" ,justify='right')
+        qDrink.grid(row=0,column=3)
 
         lblcost = Label(f1, font=( 'aria' ,16, 'bold' ),text="cost",fg="steel blue",bd=10,anchor='w')
         lblcost.grid(row=1,column=2)
@@ -292,7 +279,7 @@ class appWindow:
         btnprint=Button(f1,padx=16,pady=8, bd=10 ,fg="black",font=('ariel' ,16,'bold'),width=10, text="Print", bg="powder blue",command=csv_inc)
         btnprint.grid(row=8, column=0)
 
-        #-----------------------------------------buttons------------------------------------------
+        #-----------------------------------------Buttons------------------------------------------
         lblTotal = Label(f1,text="---------------------",fg="white")
         lblTotal.grid(row=6,columnspan=3)
 
@@ -315,39 +302,34 @@ class appWindow:
             lblinfo.grid(row=0, column=2)
             lblinfo = Label(roo, font=('aria', 15, 'bold'), text="PRICE", fg="black", anchor=W)
             lblinfo.grid(row=0, column=3)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Fries Meal", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Fafda-Jalebi (500gm)", fg="steel blue", anchor=W)
             lblinfo.grid(row=1, column=0)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="25", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="100", fg="steel blue", anchor=W)
             lblinfo.grid(row=1, column=3)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Lunch Meal", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Gujarati Thali", fg="steel blue", anchor=W)
             lblinfo.grid(row=2, column=0)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="40", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="110", fg="steel blue", anchor=W)
             lblinfo.grid(row=2, column=3)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Burger Meal", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Punjabi Thali", fg="steel blue", anchor=W)
             lblinfo.grid(row=3, column=0)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="35", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="130", fg="steel blue", anchor=W)
             lblinfo.grid(row=3, column=3)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Pizza Meal", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="SouthIndian Tadka", fg="steel blue", anchor=W)
             lblinfo.grid(row=4, column=0)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="50", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="150", fg="steel blue", anchor=W)
             lblinfo.grid(row=4, column=3)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Cheese Burger", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Lassi (400ml)", fg="steel blue", anchor=W)
             lblinfo.grid(row=5, column=0)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="30", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="70", fg="steel blue", anchor=W)
             lblinfo.grid(row=5, column=3)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Drinks", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="Drink (200ml)", fg="steel blue", anchor=W)
             lblinfo.grid(row=6, column=0)
-            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="35", fg="steel blue", anchor=W)
+            lblinfo = Label(roo, font=('aria', 15, 'bold'), text="20", fg="steel blue", anchor=W)
             lblinfo.grid(row=6, column=3)
 
-            # roo.mainloop()
 
         btnprice=Button(f1,padx=16,pady=8, bd=10 ,fg="black",font=('ariel' ,16,'bold'),width=10, text="Menu", bg="powder blue",command=price)
         btnprice.grid(row=7, column=0)
-
-        # self.root.mainloop()
-
-
 
 def main():
     # ==== create tkinter window
@@ -360,18 +342,4 @@ def main():
     root.mainloop()
 
 if __name__ == "__main__":
-    # ==== calling main function
     main()
-
-
-
-
-
-'''
-Fries = Fafda-Jalebi(500gm)  100
-Lunch = Gujarati Thali  110
-burger = Punjabi Thali  130
-Pizza = South-indian Thali  150
-cheese burger = Lassi(400ml)  70
-drink = Juice (2l) 
-'''
