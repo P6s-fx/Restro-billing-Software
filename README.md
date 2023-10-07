@@ -1,7 +1,5 @@
 # Restaurant Billing System
 
-![Project Logo or Banner (if applicable)](link-to-image)
-
 ## Description
 
 The Restaurant Billing System is a Python-based application that serves as an efficient tool for managing restaurant bills. It offers a user-friendly interface and leverages Python libraries like Tkinter, ReportLab, Invoice generator, and QR code. This system allows you to create and manage bills, store billing data in CSV files, and generate invoices with payment details and QR codes for a seamless billing experience.
