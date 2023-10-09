@@ -70,4 +70,5 @@ We would like to acknowledge the following libraries and modules that made this 
 If you have questions or want to get in touch with the project maintainer, feel free to contact:
 - Param Suthar
 - Email: param.corpid@email.com
+- Linkedin: [Linkedin/ParamSuthar](https://www.linkedin.com/in/paramsuthar)
 - GitHub: [Github/P6s-fx](https://github.com/P6s-fx)
