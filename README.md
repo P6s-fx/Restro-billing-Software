@@ -11,6 +11,8 @@ The Restaurant Billing System is a Python-based application that serves as an ef
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Contact](#contact)
 
 ## Features
 
